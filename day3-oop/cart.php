@@ -12,6 +12,7 @@
 
     $cart = new Cart();
     $cart->removeItem();
+    $cart->updateToCart();
 
 ?>
     <section class="mt-5">
@@ -48,17 +49,21 @@
                             </td>
                             <td> <?php echo $cart->getQuantity() ?> </td>
                             <td>
-                                <div class="input-group btn-block d-flex justify-content-center">
-                                    <div class="cart-input">
-                                        <input class="cart-input-box" disabled type="text" value="<?php echo $cart->getQuantity() ?>">
-                                        <div onclick="decQuantity(event)" class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                        <div onclick="incQuantity(event)" class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                <form method="post" action="">
+                                    <div class="input-group btn-block d-flex justify-content-center">
+                                        <div class="cart-input">
+                                            <input class="cart-input-box" name="quantity" type="text" value="<?php echo $cart->getQuantity() ?>">
+                                            <input name="idProduct" value="<?php echo $cart->getIdProduct(); ?>" type="hidden">
+                                            <input name="presentQty" value="<?php echo $cart->getQuantity(); ?>" type="hidden">
+                                            <div onclick="decQuantity(event)" class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                                            <div onclick="incQuantity(event)" class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                        </div>
+                                        <span class="input-group-btn">
+                                            <button type="submit" data-toggle="tooltip" data-direction="top" class="btn btn-primary text-white" data-original-title="Update"><i class="fas fa-sync-alt"></i></button>
+                                            <a href="?idItem=<?php echo $key ?>&quantity=<?php echo $cart->getQuantity()?>&idProduct=<?php echo $cart->getIdProduct()?>" type="button" data-toggle="tooltip" data-direction="top" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-times-circle"></i></a>
+                                        </span>
                                     </div>
-                                    <span class="input-group-btn">
-                                        <a href="" type="button" data-toggle="tooltip" data-direction="top" class="btn btn-primary text-white" data-original-title="Update"><i class="fas fa-sync-alt"></i></a>
-                                        <a href="?idItem=<?php echo $key ?>&quantity=<?php echo $cart->getQuantity()?>&idProduct=<?php echo $cart->getIdProduct()?>" type="button" data-toggle="tooltip" data-direction="top" class="btn btn-danger" data-original-title="Remove"><i class="fa fa-times-circle"></i></a>
-                                    </span>
-                                </div>
+                                </form>
                             </td>
                             <td><?php echo "$" . number_format($product['price'],2); ?></td>
                             <td><?php echo "$" . number_format($product['price'] * $cart->getQuantity(),2); ?></td>
@@ -88,5 +93,22 @@
         </div>
     </section>
 
+
+
     <script src="./public/js/main.js"></script>
 <?php require_once ("./commons/footer.php") ?>
+<script>
+    // notify success
+    <?php if(isset($_SESSION['danger'])): ?>
+    Swal.fire({
+        toast: true,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        position: 'top-end',
+        icon: 'error',
+        title: "<?php echo $_SESSION['danger']; ?>",
+        showConfirmButton: false,
+        timer: 1500
+    })
+    <?php endif; unset($_SESSION['danger']);?>
+</script>

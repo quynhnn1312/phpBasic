@@ -8,11 +8,9 @@
 
     $fileProduct = new ProductResourceModel();
     $fileProducts = $fileProduct->loadAllProduct();
+    $cart = new Cart();
+    $cart->addToCart();
 
-    if(isset($_GET['idProduct'])){
-        $cart = new Cart();
-        $cart->addToCart($_GET['idProduct'], 1);
-    }
 ?>
     <section class="mt-5">
         <div class="section-title text-center mb-3">
@@ -42,17 +40,17 @@
 <?php require_once ("./commons/footer.php") ?>
 <script>
     // notify success
-    <?php if(isset($_SESSION['success'])): ?>
+    <?php if(isset($_SESSION['success']) || isset($_SESSION['danger'])): ?>
     Swal.fire({
         toast: true,
         showConfirmButton: false,
         timerProgressBar: true,
         position: 'top-end',
         icon: 'success',
-        title: "<?php echo $_SESSION['success']; ?>",
+        title: "<?php echo $_SESSION['success'],$_SESSION['danger'] ; ?>",
         showConfirmButton: false,
         timer: 1500
     })
-    <?php endif; unset($_SESSION['success']);?>
+    <?php endif; unset($_SESSION['success']); unset($_SESSION['danger'])?>
 </script>
 

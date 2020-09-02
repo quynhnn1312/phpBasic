@@ -25,25 +25,29 @@
             }
         }
 
-        public function updateCart($itemId = '') {
+        public function removeItemCart($itemId = '') {
             if($itemId != ''){
                 $file = new File($this->fileName);
                 $carts = $file->readFromFile();
-                if(count($carts) == 1){
-                    $carts = [];
-                }else{
-                    foreach ($carts as $key => &$cart) {
-                        if($cart['idProduct'] == $itemId){
-                            array_splice($carts,$key, 1);
-                            break;
-                        }
-                    }
-                }
-
+                unset($carts[$itemId]);
                 $header = 'idProduct|quantity';
                 $file->updateFile($carts, $header);
 
             }
+        }
+
+        public function updateCart($idProduct, $quantity) {
+            $file = new File($this->fileName);
+            $carts = $file->readFromFile();
+            foreach ($carts as &$cart) {
+                if($cart['idProduct'] === $idProduct){
+                    $cart['quantity'] = $quantity;
+                    break;
+                }
+            }
+
+            $header = 'idProduct|quantity';
+            $file->updateFile($carts, $header);
         }
 
         public function loadAllCart() {

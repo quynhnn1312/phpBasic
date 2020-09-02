@@ -43,14 +43,7 @@
     position: relative;
     width: 100px;
 }
-.input-group-btn button{
-    position: absolute;
-    height: 45px;
-}
-.input-group-btn .btn-primary{
-    left: 8px;
-    top: 0;
-}
+
 table p{
     margin: 0;
 }
