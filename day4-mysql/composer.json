@@ -1,0 +1,12 @@
+{
+    "name": "quynhnn/mysql",
+    "type": "project",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Connection\\": "Connection/",
+            "Database\\": "Database/",
+            "Model\\": "Model/"
+        }
+    }
+}
